@@ -141,7 +141,6 @@ def main():
             'itinerary_assistant': agents['itinerary_assistant']
         }
         
-        # 启动对话，由user proxy agent协调
         agents['user_proxy'].start_conversation(agent_dict)
         
     except ValueError as ve:

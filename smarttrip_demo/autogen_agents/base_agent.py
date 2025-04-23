@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Union, Any
 from openai import OpenAI
 from config.settings import API_KEYS, AUTOGEN_SETTINGS, AGENT_SETTINGS, SYSTEM_SETTINGS
 
-# Configure logger
+# Configu re logger
 logger = logging.getLogger(__name__)
 logger.setLevel(SYSTEM_SETTINGS["LOG_LEVEL"])
 
