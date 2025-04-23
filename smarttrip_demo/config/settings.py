@@ -3,16 +3,29 @@ Configuration settings for the SmartTrip Multi-Agent System.
 Contains API keys, system settings, and other configuration parameters.
 """
 
-# API Keys for various services
+# Load environment variables
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
+# API Keys and configuration loaded from environment variables
 API_KEYS = {
-    "OPENAI_API_KEY": "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",  # Your OpenAI API key
-    "GOOGLE_MAPS_API_KEY": "AIzaSyBo-O_qbEa-eOC6uBTfH98WCLHeb9lxzG4",
-    "SKYSCANNER_API_KEY": "8a48bb9803msh8f3afbff80db92ep1dc342jsn77b450710853",
-    "SKYSCANNER_API_HOST": "skyscanner89.p.rapidapi.com",
-    "SKYSCANNER_API_BASE_URL": "https://skyscanner89.p.rapidapi.com",
-    "BOOKING_COM_API_KEY": "eafa303ff5msha8bc068c68c2a36p167b0bjsn62e19ebfff9b",
-    "BOOKING_COM_API_HOST": "booking-com.p.rapidapi.com"
+    "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY"),  # OpenAI API key from environment
+    "GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY"),  # Google Maps API key
+    "SKYSCANNER_API_KEY": os.getenv("SKYSCANNER_API_KEY"),  # Skyscanner API key
+    "SKYSCANNER_API_HOST": os.getenv("SKYSCANNER_API_HOST", "skyscanner89.p.rapidapi.com"),
+    "SKYSCANNER_API_BASE_URL": os.getenv("SKYSCANNER_API_BASE_URL", "https://skyscanner89.p.rapidapi.com"),
+    "BOOKING_COM_API_KEY": os.getenv("BOOKING_COM_API_KEY"),  # Booking.com API key
+    "BOOKING_COM_API_HOST": os.getenv("BOOKING_COM_API_HOST", "booking-com.p.rapidapi.com")
 }
+
+# Validate required API keys
+required_keys = ["OPENAI_API_KEY", "GOOGLE_MAPS_API_KEY", "SKYSCANNER_API_KEY", "BOOKING_COM_API_KEY"]
+missing_keys = [key for key in required_keys if not API_KEYS[key]]
+if missing_keys:
+    raise ValueError(f"Missing required environment variables: {', '.join(missing_keys)}")
 
 # Google Maps API configuration
 GOOGLE_MAPS_CONFIG = {
@@ -147,20 +160,3 @@ Focus on creating personalized travel experiences:
         }
     }
 }
-
-# Load environment variables if available
-try:
-    import os
-    from dotenv import load_dotenv
-    
-    # Load .env file if it exists
-    load_dotenv()
-    
-    # Override API keys with environment variables if they exist
-    for key in API_KEYS:
-        env_value = os.getenv(key)
-        if env_value:
-            API_KEYS[key] = env_value
-            
-except ImportError:
-    print("dotenv package not found. Using default settings.")
